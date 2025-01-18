@@ -1,19 +1,26 @@
 import deleteIcon from "../assets/delete-icon.svg"
 
 export default function TaskList({tasksList, handleCheckboxChange, handleDelete}) {
-    //Mapping over added task and displaying them
+    //Mapping over added tasks and displaying them
     const taskElements = tasksList.map(({id, task}) => (
-        <li key={id}>
+        <li key={id}
+            className="task-item"
+        >
             {task}
-            <input 
-                type="checkbox"
-                onChange={() => handleCheckboxChange(id)}
-            />
-            <button
-                onClick={() => handleDelete(id)}
-            >
-                <img src={deleteIcon} alt="delete icon" />
-            </button>
+            <div className="task-item-btn-container">
+                <label>
+                    Completed:
+                    <input 
+                        type="checkbox"
+                        onChange={() => handleCheckboxChange(id)}
+                    />
+                </label>
+                <button
+                    onClick={() => handleDelete(id)}
+                >
+                    <img src={deleteIcon} alt="delete icon" />
+                </button>
+            </div>
         </li>
     ))
 

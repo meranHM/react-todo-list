@@ -21,7 +21,9 @@ img {
   --BGCOLOR: #E1F5FE;
   --TEXTCOLOR: #4B4F54;
   --BORDERCOLOR: #B0BEC5;
-  --HOVERCOLOR: #80DEEA;
+  --BUTTON-BGCOLOR: #0288D1;
+  --BUTTON-TEXTCOLOR: #FFFFFF;
+  --BUTTON-HOVERCOLOR: #0277BD;
   
   /* Borders*/
   --BORDERS: 1px solid var(--BORDERCOLOR);
@@ -56,9 +58,9 @@ button {
 div#root {
   height: 100%;
   width: 100%;
-  /* display: flex;
+  display: flex;
   flex-direction: column;
-  align-items: center; */
+  align-items: center;
 }
 
 /* Header */
@@ -89,26 +91,76 @@ div#root {
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 700px;
   height: 100%;
   padding: 10px;
 }
 
 .task-form {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin-block: 10px;
+  gap: 10px ;
 } 
 
 .task-field {
   display: flex;
   flex-direction: column;
 }
+
+.task-field > input {
+  width: 350px;
+  height: 30px;
+  padding: 5px;
+  margin-block: 3px;
+  border: var(--BORDERS);
+  border-radius: var(--BORDERSRADIUS);
+}
+
+.task-form > button {
+  margin-top: 19px;
+  padding: 8px 18px;
+  background-color: var(--BUTTON-BGCOLOR);
+  color: var(--BUTTON-TEXTCOLOR);
+  border: none;
+  border-radius: 5px;
+  box-shadow: var(--BOXSHADOW);
+  font-weight: 700;
+}
+
+.task-form > button:hover {
+  background-color: #0277BD;
+}
+
+.task-list {
+  padding: 10px;
+  line-height: 2;
+  border: var(--BORDERS);
+  border-radius: var(--BORDERSRADIUS);
+  box-shadow: var(--BOXSHADOW);
+  list-style: none;
+}
+
+.task-item {
+  margin-block: 10px;
+  padding-inline: 10px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: var(--BORDERS);
+}
   
+.task-item-btn-container {
+  display: flex;
+  gap: 10px;
+}
+
 /* Footer */
 .footer {
   position: sticky;
   bottom: 0;
   text-align: center;
+  padding: 10px;
 }
 
 

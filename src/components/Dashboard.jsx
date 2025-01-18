@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import TaskList from "./TaskList"
 import { nanoid } from "nanoid"
+import { clsx } from "clsx"
 
 /* 
  -saving tasks from users into state (done)
@@ -17,8 +18,17 @@ import { nanoid } from "nanoid"
 export default function Dashboard() {
     //State Values
     const [tasksList, setTasksList] = useState([])
+    const [filterStatus, setFilterStatus] = useState("all")
 
+    //Derived Values
+    const filteredTasks = 
+            filterStatus === "all" ? tasksList : tasksList.filter(task => filterStatus === "completed" ? task.checked : !task.checked)
 
+    //Dynamic classNames
+        const filterButtonsClasses = clsx({
+            "active-filter": filterStatus === "all" || filterStatus === "completed" || filterStatus === "pending"
+        })
+    
     //Grabbing tasks from task-form and putting it in the tasksList state array
     function addTasks(formData) {
         const newTask = formData.get("task")
@@ -41,7 +51,6 @@ export default function Dashboard() {
         setTasksList(prevTasksList => prevTasksList.filter(taskObj => taskObj.id !== id))
     }
 
-
     return (
         <main className="main">
             <form action={addTasks} 
@@ -55,13 +64,36 @@ export default function Dashboard() {
                            aria-label="Add task"
                     />
                 </label>
-                <button className="add-task-btn">Add</button>
+                <button className="add-task-btn">ADD</button>
             </form>
-            <TaskList 
-                tasksList={tasksList}
+            {tasksList.length > 0 && <TaskList 
+                tasksList={filteredTasks}
                 handleCheckboxChange={handleCheckboxChange}
                 handleDelete={handleDelete}
-            />
+            />}
+            <section className="filter-container">
+                <span>
+                    Filter By:
+                    <button
+                        onClick={() => setFilterStatus("completed")}
+                        className={filterButtonsClasses}
+                    >
+                        Completed Tasks
+                    </button>
+                    <button
+                        onClick={() => setFilterStatus("pending")}
+                        className={filterButtonsClasses}
+                    >
+                        Pending Tasks
+                    </button>
+                    <button
+                        onClick={() => setFilterStatus("all")}
+                        className={filterButtonsClasses}
+                    >
+                        All
+                    </button>
+                </span>
+            </section>
         </main>
     )
 }
