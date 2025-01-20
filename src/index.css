@@ -124,7 +124,7 @@ div#root {
   background-color: var(--BUTTON-BGCOLOR);
   color: var(--BUTTON-TEXTCOLOR);
   border: none;
-  border-radius: 5px;
+  border-radius: var(--BORDERSRADIUS);
   box-shadow: var(--BOXSHADOW);
   font-weight: 700;
 }
@@ -152,7 +152,107 @@ div#root {
   
 .task-item-btn-container {
   display: flex;
+  align-items: center;
   gap: 10px;
+}
+
+.task-item-btn-container button img {
+  width: 20px;
+  height: 20px;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ff5722;
+  border-radius: var(--BORDERSRADIUS);
+  background-color: #fff;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #ff5722;
+  border-color: #ff5722;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+input[type="checkbox"]:checked::before {
+  content: "✔";
+  font-size: 14px;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  z-index: 2;
+}
+
+input[type="checkbox"]:hover {
+  border-color: #b62a00;
+}
+
+input[type="checkbox"]:focus {
+  outline: none;
+  border-color: #ff9800;
+  box-shadow: 0 0 4px rgba(255, 87, 34, 0.6);
+}
+
+.task-description-container > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.tasks-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-container {
+  align-self: flex-end;
+  margin-top: 20px;
+  font-size: 1.15rem;
+}
+
+.filter-container  button {
+  margin-left: 7px;
+  padding: 8px 18px;
+  background-color: var(--BUTTON-BGCOLOR);
+  color: var(--BUTTON-TEXTCOLOR);
+  border: none;
+  border-radius: 5px;
+  box-shadow: var(--BOXSHADOW);
+  font-weight: 700;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.filter-container  button:hover {
+  background-color: #0277BD;
+  transform: scale(1.05);
+}
+
+.filter-container button.active-filter {
+  background-color: #ff5722;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.filter-container button.active-filter:hover {
+  background-color: #e64a19;
+  transform: scale(1.05);
 }
 
 /* Footer */
