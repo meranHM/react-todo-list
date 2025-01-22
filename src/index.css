@@ -19,15 +19,26 @@ img {
 
   /* Colors */
     /* Header and Footer Colors*/
-    --HF-BGCOLOR: #0288D1;
-    --HF-TEXTCOLOR: #FFFFFF;
+  --HF-BGCOLOR: #0288D1;
+  --HF-TEXTCOLOR: #FFFFFF;
     /* Body Colors */
   --BGCOLOR: #E1F5FE;
   --TEXTCOLOR: #4B4F54;
   --BORDERCOLOR: #B0BEC5;
+    /* Button Colors */
   --BUTTON-BGCOLOR: #0288D1;
   --BUTTON-TEXTCOLOR: #FFFFFF;
   --BUTTON-HOVERCOLOR: #0277BD;
+  --BUTTON-ACTIVECOLOR: #ff5722;
+  --BUTTON-ACTIVEHOVERCOLOR: #e64a19;
+    /* Checkbox Colors */
+  --CHECKBOX-HOVERCOLOR: #b62a00;
+  --CHECKBOX-BEFORECOLOR: #FFFFFF;
+  --CHECKBOX-BGCOLOR: #ff5722;
+  --CHECKBOX-BORDERCOLOR: #ff5722;
+  --CHECKBOX-FOCUSCOLOR: #ff9800;
+    /* Textarea Colors */
+  --TEXAREA-PLACEHOLDERCOLOR: rgba(75, 79, 84, 0.7);
   
   /* Borders*/
   --BORDERS: 1px solid var(--BORDERCOLOR);
@@ -35,7 +46,10 @@ img {
 
   /* Box Shadows */
   --BOXSHADOW: 0 2px 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-
+  --BUTTON-BOXSHADOW:  0 4px 8px rgba(0, 0, 0, 0.2);
+  --TEXTAREA-BOXSHADOW: 0 0 6px rgba(255, 152, 0, 0.6);
+  --CHECKBOX-FOCUSBOXSHADOW: 0 0 4px rgba(255, 87, 34, 0.6);
+  --CHECKBOX-CHECKEDBOXSHADOW:  0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* General Styles */
@@ -49,22 +63,54 @@ body {
   font-family: var(--FF);
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
 }
 
-button {
-  cursor: pointer;
-  font-family: inherit;
-}
-
 div#root {
-  height: 100%;
+  height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* Styling Buttons */
+button {
+  cursor: pointer;
+  font-family: inherit;
+  margin-left: 7px;
+  padding: 8px 18px;
+  background-color: var(--BUTTON-BGCOLOR);
+  color: var(--BUTTON-TEXTCOLOR);
+  border: none;
+  border-radius: 5px;
+  box-shadow: var(--BOXSHADOW);
+  font-weight: 700;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+
+button:hover {
+  background-color: var(--BUTTON-HOVERCOLOR);
+  transform: scale(1.05);
+}
+
+button.active-filter {
+  background-color: var(--BUTTON-ACTIVECOLOR);
+  color: var(--BUTTON-TEXTCOLOR);
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  box-shadow: var(--BUTTON-BOXSHADOW);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.active-filter:hover {
+  background-color: var(--BUTTON-ACTIVEHOVERCOLOR);
+  transform: scale(1.05);
 }
 
 /* Header */
@@ -97,11 +143,12 @@ div#root {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 700px;
+  max-width: 1100px;
   height: 100%;
   padding: 10px;
 }
 
+/* Task Input */
 .task-form {
   display: flex;
   align-items: center;
@@ -110,12 +157,12 @@ div#root {
   gap: 10px ;
 } 
 
-.task-field {
+.task-label {
   display: flex;
   flex-direction: column;
 }
 
-.task-field > input {
+.task-label > input {
   width: 350px;
   height: 30px;
   padding: 5px;
@@ -126,17 +173,12 @@ div#root {
 
 .task-form > button {
   margin-top: 19px;
-  padding: 8px 18px;
-  background-color: var(--BUTTON-BGCOLOR);
-  color: var(--BUTTON-TEXTCOLOR);
-  border: none;
-  border-radius: var(--BORDERSRADIUS);
-  box-shadow: var(--BOXSHADOW);
-  font-weight: 700;
 }
 
-.task-form > button:hover {
-  background-color: #0277BD;
+/* Task List Container */
+.tasks-section {
+  display: flex;
+  flex-direction: column;
 }
 
 .task-list {
@@ -148,12 +190,29 @@ div#root {
   list-style: none;
 }
 
+.filter-container {
+  align-self: flex-end;
+  margin-top: 20px;
+  font-size: 1.15rem;
+}
+
+  /* Styling Each Task */
 .task-item {
   margin-block: 10px;
   padding-inline: 10px;
   display: flex;
   justify-content: space-between;
   border-bottom: var(--BORDERS);
+}
+
+.task {
+  width: 300px;
+}
+
+.calender {
+  display: flex;
+  margin-bottom: 5px;
+  gap: 5px;
 }
   
 .task-item-btn-container {
@@ -168,13 +227,14 @@ div#root {
   height: 15px;
 }
 
+  /* Styling Checkboxes */
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   width: 20px;
   height: 20px;
-  border: 2px solid #ff5722;
+  border: 2px solid var(--CHECKBOX-BORDERCOLOR);
   border-radius: var(--BORDERSRADIUS);
   background-color: #fff;
   transition: background-color 0.2s ease, border-color 0.2s ease;
@@ -183,17 +243,16 @@ input[type="checkbox"] {
   z-index: 1;
 }
 
-/* Styling Checkboxes */
 input[type="checkbox"]:checked {
-  background-color: #ff5722;
-  border-color: #ff5722;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--CHECKBOX-BGCOLOR);
+  border-color: var(--CHECKBOX-BORDERCOLOR);
+  box-shadow: var(--CHECKBOX-CHECKEDBOXSHADOW);
 }
 
 input[type="checkbox"]:checked::before {
   content: "✔";
   font-size: 14px;
-  color: #fff;
+  color: var(--CHECKBOX-BEFORECOLOR);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -203,65 +262,13 @@ input[type="checkbox"]:checked::before {
 }
 
 input[type="checkbox"]:hover {
-  border-color: #b62a00;
+  border-color: var(--CHECKBOX-HOVERCOLOR);
 }
 
 input[type="checkbox"]:focus {
   outline: none;
-  border-color: #ff9800;
-  box-shadow: 0 0 4px rgba(255, 87, 34, 0.6);
-}
-
-.task-description-container > form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.tasks-section {
-  display: flex;
-  flex-direction: column;
-}
-
-.filter-container {
-  align-self: flex-end;
-  margin-top: 20px;
-  font-size: 1.15rem;
-}
-
-/* Styling Buttons */
-button {
-  margin-left: 7px;
-  padding: 8px 18px;
-  background-color: var(--BUTTON-BGCOLOR);
-  color: var(--BUTTON-TEXTCOLOR);
-  border: none;
-  border-radius: 5px;
-  box-shadow: var(--BOXSHADOW);
-  font-weight: 700;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-  background-color: #0277BD;
-  transform: scale(1.05);
-}
-
-button.active-filter {
-  background-color: #ff5722;
-  color: #ffffff;
-  font-weight: bold;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5em 1em;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button.active-filter:hover {
-  background-color: #e64a19;
-  transform: scale(1.05);
+  border-color: var(--CHECKBOX-FOCUSCOLOR);
+  box-shadow: var(--CHECKBOX-FOCUSBOXSHADOW);
 }
 
 /* Footer */
@@ -269,13 +276,14 @@ button.active-filter:hover {
   background-color: var(--HF-BGCOLOR);
   color: var(--HF-TEXTCOLOR);
   width: 100%;
-  position: sticky;
+  position: fixed;
   bottom: 0;
   text-align: center;
   padding: 10px;
+  z-index: 2;
 }
 
-/* Description Modal Styles */
+/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -289,7 +297,7 @@ button.active-filter:hover {
   z-index: 3;
 }
 
-.modal {
+.calender-modal {
   background-color: var(--BGCOLOR);
   padding: 20px;
   border-radius: var(--BORDERSRADIUS);
@@ -302,12 +310,25 @@ button.active-filter:hover {
   font-size: 1.5rem;
 }
 
-.modal button {
+.description-modal {
+  background-color: var(--BGCOLOR);
+  padding: 20px;
+  border-radius: var(--BORDERSRADIUS);
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.description-modal button {
   align-self: flex-end;
   padding: 5px;
 }
 
-.modal button > img {
+.description-modal button > img {
   width: 20px;
   height: 20px;
 }
@@ -329,13 +350,13 @@ textarea {
 }
 
 textarea:focus {
-  border-color: #e64a19;
-  box-shadow: 0 0 6px rgba(255, 152, 0, 0.6);
+  border-color: var(--BUTTON-ACTIVEHOVERCOLOR);
+  box-shadow: var(--TEXTAREA-BOXSHADOW);
   outline: none;
 }
 
 textarea::placeholder {
-  color: rgba(75, 79, 84, 0.7);
+  color: var(--TEXAREA-PLACEHOLDERCOLOR);
 }
 
 

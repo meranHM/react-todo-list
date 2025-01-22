@@ -13,13 +13,16 @@ import { nanoid } from "nanoid"
  -adding a section for buttons to add filtering tasks (done)
  -adding a description input for each task (done)
  -adding a calender for each task
+ -adding localStorage features
+ -completing README.md descriptions
 */
 
 export default function Dashboard() {
     //State Values
     const [tasksList, setTasksList] = useState([])
     const [filterStatus, setFilterStatus] = useState("all")
-    const [openTaskId, setOpenTaskId] = useState(null)
+    const [openDescriptionId, setOpenDescriptionId] = useState(null)
+    const [openCalenderId, setOpenCalenderId] = useState(null)
 
     //Derived Values
     const filteredTasks = 
@@ -60,37 +63,41 @@ export default function Dashboard() {
     }
 
     //Opening Modal and Closing Modal Functions
-    function openModal(id) {
-        setOpenTaskId(id)
+    function openDescriptionModal(id) {
+        setOpenDescriptionId(id)
     }
 
-    function closeModal() {
-        setOpenTaskId(null)
+    function openCalenderModal(id) {
+        setOpenCalenderId(id)
     }
 
-    //Creating an eventListener for esc button to close the modal
+    function closeModals() {
+        setOpenDescriptionId(null)
+        setOpenCalenderId(null)
+    }
+    
+    //Creating an eventListener for esc button to close the modals
         function handleKeyDown(e) {
             if (e.key === "Escape") {
-                closeModal()
+                closeModals()
             }
         }
-
+        
         useEffect(() => {
-            if (openTaskId) {
+            if (openDescriptionId || openCalenderId) {
                 window.addEventListener("keydown", handleKeyDown)
             } 
             return () => { 
                 window.removeEventListener("keydown", handleKeyDown)
             }
-        }, [openTaskId])
-  
-    console.log(tasksList)
+        }, [openDescriptionId, openCalenderId])
+
     return (
         <main className="main">
             <form action={addTasks} 
                 className="task-form"
             >
-                <label className="task-field">
+                <label className="task-label">
                     Add a new task:
                     <input type="text" 
                            placeholder="e.g. Exercise"
@@ -130,9 +137,11 @@ export default function Dashboard() {
                         handleCheckboxChange={handleCheckboxChange}
                         handleDelete={handleDelete}
                         handleDescription={handleDescription}
-                        openModal={openModal}
-                        closeModal={closeModal}
-                        openTaskId={openTaskId}
+                        openDescriptionModal={openDescriptionModal}
+                        openCalenderModal={openCalenderModal}
+                        closeModals={closeModals}
+                        openDescriptionId={openDescriptionId}
+                        openCalenderId={openCalenderId}
                     />
                 </section>
             )}
