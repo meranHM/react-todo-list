@@ -18,6 +18,10 @@ img {
   --FF: "Overlock", sans-serif;
 
   /* Colors */
+    /* Header and Footer Colors*/
+    --HF-BGCOLOR: #0288D1;
+    --HF-TEXTCOLOR: #FFFFFF;
+    /* Body Colors */
   --BGCOLOR: #E1F5FE;
   --TEXTCOLOR: #4B4F54;
   --BORDERCOLOR: #B0BEC5;
@@ -65,6 +69,8 @@ div#root {
 
 /* Header */
 .header {
+  background-color: var(--HF-BGCOLOR);
+  color: var(--HF-TEXTCOLOR);
   width: 100%;
   display: flex;
   justify-content: center;
@@ -154,11 +160,12 @@ div#root {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 5px;
 }
 
 .task-item-btn-container button img {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
 }
 
 input[type="checkbox"] {
@@ -176,6 +183,7 @@ input[type="checkbox"] {
   z-index: 1;
 }
 
+/* Styling Checkboxes */
 input[type="checkbox"]:checked {
   background-color: #ff5722;
   border-color: #ff5722;
@@ -222,7 +230,8 @@ input[type="checkbox"]:focus {
   font-size: 1.15rem;
 }
 
-.filter-container  button {
+/* Styling Buttons */
+button {
   margin-left: 7px;
   padding: 8px 18px;
   background-color: var(--BUTTON-BGCOLOR);
@@ -234,12 +243,12 @@ input[type="checkbox"]:focus {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.filter-container  button:hover {
+button:hover {
   background-color: #0277BD;
   transform: scale(1.05);
 }
 
-.filter-container button.active-filter {
+button.active-filter {
   background-color: #ff5722;
   color: #ffffff;
   font-weight: bold;
@@ -250,17 +259,84 @@ input[type="checkbox"]:focus {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.filter-container button.active-filter:hover {
+button.active-filter:hover {
   background-color: #e64a19;
   transform: scale(1.05);
 }
 
 /* Footer */
 .footer {
+  background-color: var(--HF-BGCOLOR);
+  color: var(--HF-TEXTCOLOR);
+  width: 100%;
   position: sticky;
   bottom: 0;
   text-align: center;
   padding: 10px;
 }
+
+/* Description Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+
+.modal {
+  background-color: var(--BGCOLOR);
+  padding: 20px;
+  border-radius: var(--BORDERSRADIUS);
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.modal button {
+  align-self: flex-end;
+  padding: 5px;
+}
+
+.modal button > img {
+  width: 20px;
+  height: 20px;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  margin: 30px;
+  padding: 20px;
+  background-color: var(--BGCOLOR);
+  border: var(--BORDERS);
+  border-radius: var(--BORDERSRADIUS);
+  color: var(--TEXTCOLOR);
+  box-shadow: var(--BOXSHADOW);
+  resize: none;
+  font-family: var(--FF);
+  font-size: 1.25rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea:focus {
+  border-color: #e64a19;
+  box-shadow: 0 0 6px rgba(255, 152, 0, 0.6);
+  outline: none;
+}
+
+textarea::placeholder {
+  color: rgba(75, 79, 84, 0.7);
+}
+
 
 

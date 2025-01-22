@@ -1,14 +1,8 @@
 import { useState } from "react"
 import deleteIcon from "../assets/delete-icon.svg"
+import closeIcon from "../assets/close-icon.svg"
 
-export default function TaskList({tasksList, handleCheckboxChange, handleDelete, handleDescription}) {
-    //Passing description value to the parent function
-    function handleSubmitDescription(e, id) {
-        e.preventDefault()
-        const formData = new FormData(e.target)
-        handleDescription(id, formData)
-    }
-
+export default function TaskList({tasksList, handleCheckboxChange, handleDelete, handleDescription, openModal, closeModal, openTaskId}) {
     //Mapping over added tasks and displaying them
     const taskElements = tasksList.map(({id, task}) => (
         <li key={id}
@@ -27,13 +21,24 @@ export default function TaskList({tasksList, handleCheckboxChange, handleDelete,
                 >
                     <img src={deleteIcon} alt="delete icon" />
                 </button>
-                <div className="task-description-container">
-                    <form onSubmit={(e) => handleSubmitDescription(e, id)}>
-                        <label htmlFor={`description-${id}`}>Description:</label>
-                        <textarea name="description" id={`description-${id}`}></textarea>
-                        <button type="submit">Add Description</button>
-                    </form>
-                </div>
+
+                <button onClick={() => openModal(id)}>Add Description</button>
+                {openTaskId === id && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                            <button onClick={() => closeModal()}>
+                                <img src={closeIcon} alt="close icon" />
+                            </button>
+                            <label htmlFor={`description-${id}`}>Description:</label>
+                            <textarea 
+                                name="description" 
+                                id={`description-${id}`}
+                                value={tasksList.find(task => task.id === id)?.description || ""}
+                                onChange={(e) => handleDescription(id, e.target.value)}
+                            >
+                            </textarea>
+                    </div>
+                </div>)}
             </div>
         </li>
     ))

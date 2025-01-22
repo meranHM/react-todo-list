@@ -11,7 +11,7 @@ import { nanoid } from "nanoid"
  -adding functionality to delete buttons to delete tasks from tasksList (done)
  -filter tasks by completed and pending status (done)
  -adding a section for buttons to add filtering tasks (done)
- -adding a description input for each task
+ -adding a description input for each task (done)
  -adding a calender for each task
 */
 
@@ -19,6 +19,7 @@ export default function Dashboard() {
     //State Values
     const [tasksList, setTasksList] = useState([])
     const [filterStatus, setFilterStatus] = useState("all")
+    const [openTaskId, setOpenTaskId] = useState(null)
 
     //Derived Values
     const filteredTasks = 
@@ -51,14 +52,38 @@ export default function Dashboard() {
         setTasksList(prevTasksList => prevTasksList.filter(taskObj => taskObj.id !== id))
     }
 
-    //Grabbing tasks description from description-from and adding in the tasksList state
-    function handleDescription(id, formData) {
-        const newDesc = formData.get("description")
+    //Grabbing tasks description from description-from and adding in the tasksList state in realtime
+    function handleDescription(id, newDesc) {
                 setTasksList(prevTasksList => prevTasksList.map(taskObj => (
                 id === taskObj.id ? {...taskObj, description: newDesc} : taskObj
             ))) 
     }
 
+    //Opening Modal and Closing Modal Functions
+    function openModal(id) {
+        setOpenTaskId(id)
+    }
+
+    function closeModal() {
+        setOpenTaskId(null)
+    }
+
+    //Creating an eventListener for esc button to close the modal
+        function handleKeyDown(e) {
+            if (e.key === "Escape") {
+                closeModal()
+            }
+        }
+
+        useEffect(() => {
+            if (openTaskId) {
+                window.addEventListener("keydown", handleKeyDown)
+            } 
+            return () => { 
+                window.removeEventListener("keydown", handleKeyDown)
+            }
+        }, [openTaskId])
+  
     console.log(tasksList)
     return (
         <main className="main">
@@ -101,10 +126,13 @@ export default function Dashboard() {
                         </span>
                     </section>
                     <TaskList 
-                    tasksList={filteredTasks}
-                    handleCheckboxChange={handleCheckboxChange}
-                    handleDelete={handleDelete}
-                    handleDescription={handleDescription}
+                        tasksList={filteredTasks}
+                        handleCheckboxChange={handleCheckboxChange}
+                        handleDelete={handleDelete}
+                        handleDescription={handleDescription}
+                        openModal={openModal}
+                        closeModal={closeModal}
+                        openTaskId={openTaskId}
                     />
                 </section>
             )}
