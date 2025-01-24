@@ -1,18 +1,9 @@
 import { useState, useEffect } from "react"
 import TaskList from "./TaskList"
 import { nanoid } from "nanoid"
+import TaskForm from "./TaskForm"
 
 /* 
- -saving tasks from users into state (done)
- -displaying saved tasks from state as a li (done)
- -adding checkboxes next to each task (done)
- -adding functionality to checkboxes to change checked tasks in state (done)
- -adding a delete button next to each task (done)
- -adding functionality to delete buttons to delete tasks from tasksList (done)
- -filter tasks by completed and pending status (done)
- -adding a section for buttons to add filtering tasks (done)
- -adding a description input for each task (done)
- -adding a calender for each task (done)
  -adding localStorage features
  -completing README.md descriptions
 */
@@ -21,6 +12,7 @@ export default function Dashboard() {
     //State Values
     const [tasksList, setTasksList] = useState([])
     const [filterStatus, setFilterStatus] = useState("all")
+    const [openTaskFormId, setTaskFormId] = useState(false)
     const [openDescriptionId, setOpenDescriptionId] = useState(null)
     const [openCalenderId, setOpenCalenderId] = useState(null)
 
@@ -43,6 +35,7 @@ export default function Dashboard() {
                 duration: "",
                 date: ""
             }])
+            openTaskFormModal()
         }
     }
 
@@ -85,6 +78,14 @@ export default function Dashboard() {
     }
 
     //Opening Modal and Closing Modal Functions
+    function openTaskFormModal() {
+        setTaskFormId(true)
+    }
+
+    function closeTaskFormModal() {
+        setTaskFormId(false)
+    }
+
     function openDescriptionModal(id) {
         setOpenDescriptionId(id)
     }
@@ -102,6 +103,7 @@ export default function Dashboard() {
         function handleKeyDown(e) {
             if (e.key === "Escape") {
                 closeModals()
+                closeTaskFormModal()
             }
         }
         
@@ -112,7 +114,7 @@ export default function Dashboard() {
             return () => { 
                 window.removeEventListener("keydown", handleKeyDown)
             }
-        }, [openDescriptionId, openCalenderId])
+        }, [openDescriptionId, openCalenderId, openTaskFormId])
         
         console.log(tasksList)
     return (
@@ -130,6 +132,11 @@ export default function Dashboard() {
                 </label>
                 <button className="add-task-btn">ADD</button>
             </form>
+            {openTaskFormId && 
+                <TaskForm 
+                    closeTaskFormModal={closeTaskFormModal}
+                    tasksList={tasksList}
+                />}
             {tasksList.length > 0 && (
                 <section className="tasks-section">
                     <section className="filter-container">
