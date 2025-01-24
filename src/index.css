@@ -297,17 +297,58 @@ input[type="checkbox"]:focus {
   z-index: 3;
 }
 
-.calender-modal {
-  background-color: var(--BGCOLOR);
-  padding: 20px;
-  border-radius: var(--BORDERSRADIUS);
-  width: 500px;
-  height: 500px;
+.calendar-modal {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 500px;
+  height: 500px;
+  background-color: var(--BGCOLOR);
+  border: var(--BORDERS);
+  border-radius: var(--BORDERSRADIUS);
+  box-shadow: var(--BOXSHADOW);
+  padding: 20px;
+  gap: 20px;
   font-size: 1.5rem;
+}
+
+.calendar-modal label {
+  font-size: 1.2rem;
+  color: var(--TEXTCOLOR);
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.calendar-modal input {
+  width: 100%;
+  max-width: 400px;
+  height: 40px;
+  padding: 10px;
+  font-size: 1rem;
+  color: var(--TEXTCOLOR);
+  background-color: var(--CHECKBOX-BEFORECOLOR);
+  border: var(--BORDERS);
+  border-radius: var(--BORDERSRADIUS);
+  box-shadow: var(--BOXSHADOW);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.calendar-modal input:focus,
+.calendar-modal input:hover {
+    border-color: var(--CHECKBOX-BORDERCOLOR);
+    box-shadow: var(--CHECKBOX-FOCUSBOXSHADOW);
+    outline: none;
+}
+
+.calendar-modal button {
+  align-self: flex-end;
+  padding: 5px;
+}
+
+.calendar-modal button > img {
+  width: 20px;
+  height: 20px;
 }
 
 .description-modal {

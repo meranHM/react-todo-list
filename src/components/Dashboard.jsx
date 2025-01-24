@@ -12,7 +12,7 @@ import { nanoid } from "nanoid"
  -filter tasks by completed and pending status (done)
  -adding a section for buttons to add filtering tasks (done)
  -adding a description input for each task (done)
- -adding a calender for each task
+ -adding a calender for each task (done)
  -adding localStorage features
  -completing README.md descriptions
 */
@@ -28,7 +28,7 @@ export default function Dashboard() {
     const filteredTasks = 
             filterStatus === "all" ? tasksList : tasksList.filter(task => filterStatus === "completed" ? task.checked : !task.checked)
 
-    //Grabbing tasks from task-form and putting it in the tasksList state 
+    //Grabbing tasks from task-form and adding it in the tasksList state 
     function addTasks(formData) {
         const newTask = formData.get("task")
         if (newTask === "") {
@@ -38,7 +38,10 @@ export default function Dashboard() {
                 id: nanoid(),
                 task: newTask.trim(),
                 checked: false,
-                description: ""
+                description: "",
+                time: "",
+                duration: "",
+                date: ""
             }])
         }
     }
@@ -55,11 +58,30 @@ export default function Dashboard() {
         setTasksList(prevTasksList => prevTasksList.filter(taskObj => taskObj.id !== id))
     }
 
-    //Grabbing tasks description from description-from and adding in the tasksList state in realtime
+    //Grabbing tasks description from description-modal inputs and adding in the tasksList state
     function handleDescription(id, newDesc) {
                 setTasksList(prevTasksList => prevTasksList.map(taskObj => (
                 id === taskObj.id ? {...taskObj, description: newDesc} : taskObj
             ))) 
+    }
+
+    //Grabbing tasks calender data from calendar-modal inputs and adding in the tasksList state
+    function handleAddTaskTime(id, newTime) {
+        setTasksList(prevTasksList => prevTasksList.map(taskObj => (
+            id === taskObj.id ? {...taskObj, time: newTime} : taskObj
+        )))
+    }
+
+    function handleAddTaskDuration(id, newDur) {
+        setTasksList(prevTasksList => prevTasksList.map(taskObj => (
+            id === taskObj.id ? {...taskObj, duration: newDur} : taskObj
+        )))
+    }
+
+    function handleAddTaskDate(id, newDate) {
+        setTasksList(prevTasksList => prevTasksList.map(taskObj => (
+            id === taskObj.id ? {...taskObj, date: newDate} : taskObj
+        )))
     }
 
     //Opening Modal and Closing Modal Functions
@@ -91,7 +113,8 @@ export default function Dashboard() {
                 window.removeEventListener("keydown", handleKeyDown)
             }
         }, [openDescriptionId, openCalenderId])
-
+        
+        console.log(tasksList)
     return (
         <main className="main">
             <form action={addTasks} 
@@ -142,6 +165,9 @@ export default function Dashboard() {
                         closeModals={closeModals}
                         openDescriptionId={openDescriptionId}
                         openCalenderId={openCalenderId}
+                        handleAddTaskTime={handleAddTaskTime}
+                        handleAddTaskDuration={handleAddTaskDuration}
+                        handleAddTaskDate={handleAddTaskDate}
                     />
                 </section>
             )}
