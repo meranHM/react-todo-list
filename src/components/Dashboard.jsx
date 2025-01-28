@@ -4,12 +4,14 @@ import { nanoid } from "nanoid"
 import TaskForm from "./TaskForm"
 
 /* 
+ -adding a whole form for submission when user clicks ADD
  -adding localStorage features
  -completing README.md descriptions
 */
 
 export default function Dashboard() {
     //State Values
+    const [tempTask, setTempTask] = useState("")
     const [tasksList, setTasksList] = useState([])
     const [filterStatus, setFilterStatus] = useState("all")
     const [openTaskFormId, setTaskFormId] = useState(false)
@@ -20,24 +22,39 @@ export default function Dashboard() {
     const filteredTasks = 
             filterStatus === "all" ? tasksList : tasksList.filter(task => filterStatus === "completed" ? task.checked : !task.checked)
 
-    //Grabbing tasks from task-form and adding it in the tasksList state 
-    function addTasks(formData) {
-        const newTask = formData.get("task")
-        if (newTask === "") {
+    //Holding the task the user first typed, in a temporary state
+    function handleTaskName(formData) {
+        const taskName = formData.get("task")
+        if (taskName.trim() === "") {
+            return
+        } else {
+        setTempTask(taskName)
+        openTaskFormModal()
+        }
+    }
+
+    function formSubmit(formData) {
+        const taskName = formData.get("task")
+        const taskTime = formData.get("time")
+        const taskDuration = formData.get("duration")
+        const taskDate = formData.get("date")
+        const taskDescription = formData.get("description")
+
+        if (taskName === "") {
             return
         } else {
             setTasksList(prevTasksList => [...prevTasksList, {
                 id: nanoid(),
-                task: newTask.trim(),
+                task: taskName.trim(),
                 checked: false,
-                description: "",
-                time: "",
-                duration: "",
-                date: ""
+                description: taskDescription,
+                time: taskTime,
+                duration: taskDuration,
+                date: taskDate
             }])
-            openTaskFormModal()
-        }
+            closeTaskFormModal()
     }
+}
 
     //Controlling checkboxes in our state
     function handleCheckboxChange(id) {
@@ -119,7 +136,7 @@ export default function Dashboard() {
         console.log(tasksList)
     return (
         <main className="main">
-            <form action={addTasks} 
+            <form action={handleTaskName} 
                 className="task-form"
             >
                 <label className="task-label">
@@ -136,6 +153,8 @@ export default function Dashboard() {
                 <TaskForm 
                     closeTaskFormModal={closeTaskFormModal}
                     tasksList={tasksList}
+                    formSubmit={formSubmit}
+                    tempTask={tempTask}
                 />}
             {tasksList.length > 0 && (
                 <section className="tasks-section">

@@ -1,7 +1,6 @@
 import closeIcon from "../assets/close-icon.svg"
 
 export default function TaskForm(props) {
-    const lastTaskName = props.tasksList[props.tasksList.length - 1].task
 
     return (
         <div className="modal-overlay">
@@ -10,7 +9,7 @@ export default function TaskForm(props) {
                     <img src={closeIcon} alt="close icon" />
                 </button>
                 <form
-                    action=""
+                    action={props.formSubmit}
                     className="whole-form"
                 >
                     <label className="task-label">
@@ -19,7 +18,7 @@ export default function TaskForm(props) {
                             placeholder="e.g. Exercise"
                             name="task"
                             aria-label="Add task"
-                            defaultValue={lastTaskName}
+                            defaultValue={props.tempTask}
                         />
                     </label>
                     <label> At:
