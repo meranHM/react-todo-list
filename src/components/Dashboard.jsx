@@ -2,10 +2,9 @@ import { useState, useEffect } from "react"
 import TaskList from "./TaskList"
 import { nanoid } from "nanoid"
 import TaskForm from "./TaskForm"
+import { motion, AnimatePresence } from "framer-motion"
 
 /* 
- -adding a whole form for submission when user clicks ADD
- -adding localStorage features
  -completing README.md descriptions
 */
 
@@ -22,23 +21,29 @@ export default function Dashboard() {
     const filteredTasks = 
             filterStatus === "all" ? tasksList : tasksList.filter(task => filterStatus === "completed" ? task.checked : !task.checked)
 
+    //Date Variable        
+    const currentDate = new Date().toLocaleDateString()     
+
     //Holding the task the user first typed, in a temporary state
     function handleTaskName(formData) {
         const taskName = formData.get("task")
         if (taskName.trim() === "") {
-            return
+            window.alert("Enter a task!")
+        } else if (taskName.trim().length > 40) {
+            window.alert("Enter a task title with less than 40 letters!")
         } else {
         setTempTask(taskName)
         openTaskFormModal()
         }
     }
 
+    //Handling form submission with React 19 method
     function formSubmit(formData) {
         const taskName = formData.get("task")
-        const taskTime = formData.get("time")
-        const taskDuration = formData.get("duration")
-        const taskDate = formData.get("date")
-        const taskDescription = formData.get("description")
+        const taskTime = formData.get("time") || ""
+        const taskDuration = formData.get("duration") || ""
+        const taskDate = formData.get("date") || ""
+        const taskDescription = formData.get("description") || ""
 
         if (taskName === "") {
             return
@@ -117,25 +122,41 @@ export default function Dashboard() {
     }
     
     //Creating an eventListener for esc button to close the modals
-        function handleKeyDown(e) {
-            if (e.key === "Escape") {
-                closeModals()
-                closeTaskFormModal()
-            }
+    function handleKeyDown(e) {
+        if (e.key === "Escape") {
+            closeModals()
+            closeTaskFormModal()
         }
+    }
         
-        useEffect(() => {
-            if (openDescriptionId || openCalenderId) {
-                window.addEventListener("keydown", handleKeyDown)
-            } 
-            return () => { 
-                window.removeEventListener("keydown", handleKeyDown)
-            }
-        }, [openDescriptionId, openCalenderId, openTaskFormId])
+    useEffect(() => {
+        if (openDescriptionId || openCalenderId) {
+            window.addEventListener("keydown", handleKeyDown)
+        } 
+        return () => { 
+            window.removeEventListener("keydown", handleKeyDown)
+        }
+    }, [openDescriptionId, openCalenderId, openTaskFormId])
         
-        console.log(tasksList)
+    //Loading tasks from local storage
+    useEffect(() => {
+       const savedTasks = localStorage.getItem("tasks")
+       if (savedTasks) {
+        setTasksList(JSON.parse(savedTasks))
+       }
+    }, [])
+
+    //Saving tasks to local storage    
+    useEffect(() => {
+       if (tasksList.length > 0) {
+        localStorage.setItem("tasks", JSON.stringify(tasksList))
+      }
+    }, [tasksList])
+
+    
     return (
         <main className="main">
+            <time dateTime={new Date().toISOString()}>Today: {currentDate}</time>
             <form action={handleTaskName} 
                 className="task-form"
             >
@@ -149,13 +170,15 @@ export default function Dashboard() {
                 </label>
                 <button className="add-task-btn">ADD</button>
             </form>
-            {openTaskFormId && 
-                <TaskForm 
-                    closeTaskFormModal={closeTaskFormModal}
-                    tasksList={tasksList}
-                    formSubmit={formSubmit}
-                    tempTask={tempTask}
-                />}
+            <AnimatePresence>
+                {openTaskFormId && 
+                    <TaskForm 
+                        closeTaskFormModal={closeTaskFormModal}
+                        tasksList={tasksList}
+                        formSubmit={formSubmit}
+                        tempTask={tempTask}
+                    />}
+            </AnimatePresence>
             {tasksList.length > 0 && (
                 <section className="tasks-section">
                     <section className="filter-container">

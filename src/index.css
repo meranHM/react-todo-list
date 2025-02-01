@@ -207,16 +207,10 @@ button.active-filter:hover {
 }
 
 .task {
-  max-width: 300px;
+  width: 250px;
   min-width: 150px;
 }
 
-.calender {
-  display: flex;
-  margin-bottom: 5px;
-  gap: 5px;
-}
-  
 .task-item-btn-container {
   display: flex;
   align-items: center;
@@ -325,29 +319,17 @@ input[type="checkbox"]:focus {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 700px;
-  height: 700px;
+  width: 600px;
+  height: 600px;
   background-color: var(--BGCOLOR);
   border: var(--BORDERS);
   border-radius: var(--BORDERSRADIUS);
   box-shadow: var(--BOXSHADOW);
   padding: 20px;
-  gap: 20px;
   font-size: 1.5rem;
 }
 
-.whole-form {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 20px;
-  font-size: 1.5rem;
-  border-left: var(--BORDERS);
-  padding-left: 10px;
-}
-
-.form-modal button {
+.form-modal .close-btn {
   align-self: flex-end;
   padding: 5px;
 }
@@ -357,32 +339,90 @@ input[type="checkbox"]:focus {
   height: 20px;
 }
 
+.whole-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100%;
+  font-size: 1.5rem;
+  padding: 30px;
+}
+
+.whole-form input {
+  width: 250px;
+  height: 30px;
+  padding: 5px;
+  margin-block: 5px;
+  margin-left: 10px;
+  border: var(--BORDERS);
+  border-radius: var(--BORDERSRADIUS);
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.whole-form input:focus,
+.whole-form input:hover {
+    border-color: var(--CHECKBOX-BORDERCOLOR);
+    box-shadow: var(--CHECKBOX-FOCUSBOXSHADOW);
+    outline: none;
+}
+
+.whole-form .submit-btn {
+  width: 100px;
+  font-size: 1rem;
+  margin-top: 50px;
+  align-self: center;
+}
+
+.whole-form textarea {
+  width: 350px;
+  height: 100px;
+  max-width: 400px;
+  max-height: 300px;
+  resize: none;
+  border: var(--BORDERS);
+  border-radius: var(--BORDERSRADIUS);
+  color: var(--TEXTCOLOR);
+  box-shadow: var(--BOXSHADOW);
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.modal-title {
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .calendar-modal {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 420px;
   background-color: var(--BGCOLOR);
   border: var(--BORDERS);
   border-radius: var(--BORDERSRADIUS);
   box-shadow: var(--BOXSHADOW);
-  padding: 20px;
-  gap: 20px;
+  padding: 15px;
+  gap: 5px;
   font-size: 1.5rem;
 }
 
 .calendar-modal label {
   font-size: 1.2rem;
   color: var(--TEXTCOLOR);
-  margin-bottom: 5px;
   font-weight: bold;
 }
 
 .calendar-modal input {
-  width: 100%;
-  max-width: 400px;
+  text-align: center;
+  width: 250px;
+  min-width: 200px;
   height: 40px;
   padding: 10px;
   font-size: 1rem;
@@ -434,10 +474,9 @@ input[type="checkbox"]:focus {
   height: 20px;
 }
 
-textarea {
+.description-modal textarea {
   width: 100%;
   height: 100%;
-  margin: 30px;
   padding: 20px;
   background-color: var(--BGCOLOR);
   border: var(--BORDERS);

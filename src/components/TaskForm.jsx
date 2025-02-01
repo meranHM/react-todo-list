@@ -1,56 +1,65 @@
 import closeIcon from "../assets/close-icon.svg"
+import { motion } from "framer-motion"
 
 export default function TaskForm(props) {
 
     return (
         <div className="modal-overlay">
-            <div className="form-modal">
-                <button onClick={() => props.closeTaskFormModal()}>
+            <motion.div className="form-modal"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+            >
+                <button onClick={() => props.closeTaskFormModal()}
+                        className="close-btn"    
+                >
                     <img src={closeIcon} alt="close icon" />
                 </button>
                 <form
                     action={props.formSubmit}
                     className="whole-form"
                 >
-                    <label className="task-label">
-                        Task Name:
-                        <input type="text" 
+                    <label htmlFor="task">Task Name:</label>
+                    <input type="text" 
                             placeholder="e.g. Exercise"
                             name="task"
                             aria-label="Add task"
                             defaultValue={props.tempTask}
-                        />
-                    </label>
-                    <label> At:
-                        <input type="time"
-                                name="time"
-                        />
-                    </label>
-                    <label> Duration:
-                        <input type="number"
+                            id="task"
+                    />
+
+                    <label htmlFor="time"> At:</label>
+                    <input type="time"
+                           name="time"
+                           id="time"
+                    />
+
+                    <label htmlFor="duration"> Duration:</label>
+                    <input type="number"
                                 className="duration"
+                                id="duration"
                                 name="duration"
                                 min={1}
                                 max={24}
                                 placeholder="e.g., 3"
-                        />
-                    </label>
-                    <label> Date:
-                        <input type="date" 
-                               name="date"
-                        />
-                    </label>
-                    <label htmlFor="description">Description:
-                    <textarea 
-                        name="description" 
-                        id="decription"
-                    >
-                    </textarea>
-                    </label>
+                    />
 
-                    <button>SAVE</button>
+                    <label htmlFor="date"> Date:</label>
+                    <input type="date" 
+                               name="date"
+                               id="date"
+                    />
+
+                    <label htmlFor="description">Description:</label>
+                    <textarea 
+                            name="description" 
+                            id="description"
+                        >
+                    </textarea>
+                    <button className="submit-btn">SAVE</button>
                 </form>
-            </div>
+            </motion.div>
         </div>
     )
 }
