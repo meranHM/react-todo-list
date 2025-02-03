@@ -65,7 +65,7 @@ A simple yet powerful Task Management App built with **React 19**. This app allo
 
 1️⃣ Clone the repository:
 ```sh
- git clone https://github.com/yourusername/task-management-app.git
+ git clone https://github.com/meranHM/task-management-app.git
 ```
 
 2️⃣ Navigate to the project folder:
