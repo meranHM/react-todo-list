@@ -130,7 +130,7 @@ export default function Dashboard() {
     }
         
     useEffect(() => {
-        if (openDescriptionId || openCalenderId) {
+        if (openDescriptionId || openCalenderId || openTaskFormId) {
             window.addEventListener("keydown", handleKeyDown)
         } 
         return () => { 
